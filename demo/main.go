@@ -10,7 +10,6 @@ func main() {
 }
 
 func chanOperator() {
-	的微风微风微风微风
 	number := make(chan bool)
 	letter := make(chan bool)
 	done := make(chan bool)
