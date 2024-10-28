@@ -7,7 +7,6 @@ import (
 	"sync"
 	"syscall"
 	"testing"
-	"time"
 )
 
 type Job struct {
@@ -32,7 +31,7 @@ func producer(jobs chan<- Job, quit <-chan bool) {
 		default:
 			jobs <- Job{ID: id, Data: fmt.Sprintf("data-%d", id)}
 			id++
-			time.Sleep(500 * time.Millisecond) // 模拟生产时间
+			//time.Sleep(500 * time.Millisecond) // 模拟生产时间
 		}
 	}
 }
@@ -42,7 +41,7 @@ func consumer(id int, jobs <-chan Job, results chan<- Result, wg *sync.WaitGroup
 	defer wg.Done()
 	for job := range jobs {
 		fmt.Printf("Consumer %d processing job %d\n", id, job.ID)
-		time.Sleep(1 * time.Second) // 模拟处理时间
+		//time.Sleep(1 * time.Second) // 模拟处理时间
 		results <- Result{JobID: job.ID, Output: fmt.Sprintf("processed data-%d", job.ID)}
 	}
 }

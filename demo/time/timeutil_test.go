@@ -28,6 +28,14 @@ func printDatesInRange(startTimestamp, endTimestamp int64) []string {
 	return result
 }
 
+func getDateByRegion() {
+	loc := GetUTCLocationByRegion("CN")
+	GetZeroTimeInLoc(time.Now().In(loc), loc).Unix()
+	loc = GetUTCLocationByRegion("CN")
+	GetZeroTimeInLoc(time.Now().In(loc), loc).Unix()
+	time.Now().Unix()
+}
+
 func Test_time(t *testing.T) {
 	fmt.Printf("%v\n", time.Now().Unix())
 	fmt.Printf("%v", time.Now().AddDate(0, 0, 7).Unix())

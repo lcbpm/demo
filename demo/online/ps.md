@@ -1,4 +1,4 @@
-### ps -aux
+### ps -M -p <PID>
 
 ```text
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
