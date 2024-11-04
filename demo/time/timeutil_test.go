@@ -36,10 +36,21 @@ func getDateByRegion() {
 	time.Now().Unix()
 }
 
+func getDateByRegion2() {
+	loc := GetUTCLocationByRegion("cn")
+	layout := "15:04"
+	parsedTime, err := time.ParseInLocation(layout, "11:04", loc)
+	if err != nil {
+	}
+	fmt.Printf("%v\n", parsedTime.Minute())
+}
+
 func Test_time(t *testing.T) {
 	fmt.Printf("%v\n", time.Now().Unix())
 	fmt.Printf("%v", time.Now().AddDate(0, 0, 7).Unix())
 
 	fmt.Printf("%v\n", daysBetweenTimestamps(time.Now().Unix(), time.Now().AddDate(0, 0, 7).Unix()))
-	fmt.Printf("%v", printDatesInRange(time.Now().Unix(), time.Now().AddDate(0, 0, 7).Unix()))
+	fmt.Printf("%v\n", printDatesInRange(time.Now().Unix(), time.Now().AddDate(0, 0, 7).Unix()))
+	getDateByRegion2()
+	fmt.Printf("%v\n", time.Now().Truncate(time.Minute))
 }

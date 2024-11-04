@@ -76,23 +76,6 @@ func (rl *RedisLeaderboard) GetTopUsers(roleID string, limit int) ([]string, err
 	return users, err
 }
 
-func main() {
-	rl := NewRedisLeaderboard("localhost:6379", "", 0)
-
-	// 添加分数示例
-	rl.AddScore("warrior", "user1", 100)
-	rl.AddScore("warrior", "user2", 100) // 相同分数，时间早的优先
-	rl.AddScore("mage", "user3", 200)
-
-	// 获取角色榜单
-	topRoles, _ := rl.GetTopRoles(2)
-	fmt.Println("Top Roles:", topRoles)
-
-	// 获取指定角色下的用户榜单
-	topUsers, _ := rl.GetTopUsers("warrior", 3)
-	fmt.Println("Top Users in warrior:", topUsers)
-}
-
 func TestRedisLeaderboard(t *testing.T) {
 	ctx := context.Background()
 	client := redis.NewClient(&redis.Options{
@@ -122,4 +105,5 @@ func TestRedisLeaderboard(t *testing.T) {
 	if err != nil || len(topUsers) != 2 {
 		t.Fatalf("Expected 2 top users in warrior, got: %v, err: %v", topUsers, err)
 	}
+	fmt.Printf("%v,%v", topUsers, topRoles)
 }
