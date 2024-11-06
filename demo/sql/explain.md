@@ -73,3 +73,6 @@ select * from test where a = 1 and b = c order by id
 - 数据库的配置
 - 走了索引
 - 行数据不大,相当于一个高表
+- 一条sql只会走一个索引
+- 加了索引之后排序,要么都升序,要么都降序
+- 
