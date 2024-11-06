@@ -1,5 +1,8 @@
 ### 索引执行情况
 
+https://juejin.cn/post/7028373141017591845
+https://chatgpt.com/c/672b9e8a-60b8-800d-a3a6-f462fb616205
+
 - 每个字段代表的意思：
 
 - id: 查询的标识符
@@ -14,6 +17,19 @@
 - rows: 估计需要读取的行数。
 - filtered: 过滤的百分比。
 - Extra: 额外的信息。
+
+
+```text
+
+假设你有以下索引 (user_id, friend_name, friend_addr)：
+查询 WHERE user_id = X ORDER BY friend_name 时，可以利用索引来进行排序。
+查询 WHERE friend_name = Y ORDER BY friend_addr 时，无法利用索引顺序，因为跳过了 user_id。
+
+解释:
+WHERE 子句的作用：当 WHERE user_id = X 这个条件指定了 user_id 的值，数据库就只会查找 user_id 等于 X 的那一部分数据，相当于在索引中限定了一个范围。
+范围内的排序：在找到 user_id = X 的数据范围后，索引在该范围内其实已经按照 friend_name 排好序了，因此 ORDER BY friend_name 可以直接使用索引中的顺序，而无需额外的排序操作。
+条件只需指定而无需排序：联合索引的排序顺序按左到右依次排列，但只要在 WHERE 中使用了最左侧的字段 user_id，就可以通过索引定位到指定范围，之后的排序只需要按 friend_name 排序即可。
+```
 
 ```text
 id ：没什么就是ID而已，如果没有子查询的话，通常就一行。
@@ -74,6 +90,7 @@ select * from test where a = 1 and b = c order by id
 2.如果语句需要的order by顺序刚好可以利用索引树的单向遍历，就可以避免排序操作。
 3.如果是查询出来的数据列很少,不会走file sort
 4.如果查询出来的数据量很大,会走file sort,解决方案,组合索引加多个id,然后排序统一递增或者统一递减
+5.出现 using filesort 的时候也不用太慌张，如果本身数据量不大，比如也就几十条数据，那么在 sort buffer 中使用快排也是很快的
 ```
 
 ### 聚簇索引,非聚簇索引
@@ -89,4 +106,12 @@ select * from test where a = 1 and b = c order by id
 - 行数据不大,相当于一个高表
 - 一条sql只会走一个索引
 - 加了索引之后排序,要么都升序,要么都降序
-- 
+
+```text
+MySQL 的 `FileSort` 是一种用于排序操作的算法，通常用于 `ORDER BY` 或 `GROUP BY` 查询的实现。`FileSort` 并不代表排序是在文件中完成的，它只是 MySQL 内部的一个术语。`FileSort` 可以根据排序数据的大小和内存限制，分为以下两种情况：
+1. **Buffer Sort（内存排序）**：  
+   当排序所需的数据量较小，且可以放入 MySQL 的 `sort_buffer` 中时，MySQL 会使用内存来完成排序。在这种情况下，整个排序过程都在内存中进行，速度较快。
+2. **Disk Sort（磁盘排序）**：  
+   如果数据量超过 `sort_buffer_size` 设置的限制，MySQL 就会将数据写到磁盘中进行排序。这种情况称为磁盘排序，因为部分排序操作需要借助临时磁盘文件完成。这种方式通常比内存排序慢，因此 MySQL 会尽量避免使用磁盘排序，除非内存不够用。
+总结来说，MySQL 的 `FileSort` 实际上是一个算法，内存排序和磁盘排序都是 `FileSort` 的不同实现方式。调整 `sort_buffer_size` 和 `max_length_for_sort_data` 等参数，可以减少磁盘排序的几率，提高查询性能。
+```
