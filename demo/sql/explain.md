@@ -15,6 +15,20 @@
 - filtered: 过滤的百分比。
 - Extra: 额外的信息。
 
+```text
+id ：没什么就是ID而已，如果没有子查询的话，通常就一行。
+select_type ：大致分为简单查询和复杂查询两类，复杂查询又分为简单子查询，派生表（from中的子查询）和union。一般我们看见simple比较多，代表不包含子查询和union，如果有复杂查询则会标记成primary。
+table ：表名
+type ：表示关联类型，决定Mysql通过什么方式查找行数据。这个一般就是我们看查询时候的关键信息点。比如ALL就是全表扫描；index代表使用索引；range代表有限制的扫描索引，回比直接扫描全部索引好一些；ref也是索引查找，会返回匹配具体某个值的行数据，这个还有一些其他类型，比如eq_ref只返回符合的一条记录，const会进行优化转换成常量。
+possible_keys ：显示可以使用的索引，但不一定用。
+key ：实际使用到的索引。
+key_len ：索引使用的字节数。
+ref ：代表上面key一列中使用索引查找用到的列或者常量值。
+rows ：为了找到符合条件的数据读取的行数。
+filtered ：表示查询符合条件的数据占表的行数百分比，rows*filtered可以大致得到关联的行数，Mysql5.1之后新增的字段。
+Extra ：额外信息，比如using index表示使用覆盖索引，using where表示在存储引擎之后进行过滤，using temporary表示使用临时表，using filesort表示对结果进行外部排序。
+```
+
 
 ### 索引下推
 ```text
