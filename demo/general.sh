@@ -37,11 +37,11 @@ import (
   "github.com/gookit/goutil/jsonutil"
   "gorm.io/gen"
 
-  "mecordserver/mecord/admin/dao/model"
-  "mecordserver/mecord/admin/dao/query"
-  "mecordserver/mecord/admin/request"
-  "mecordserver/mecord/admin/response"
-  "mecordserver/mecord/admin/utils/validator"
+  "mecordserver/demo/admin/dao/model"
+  "mecordserver/demo/admin/dao/query"
+  "mecordserver/demo/admin/request"
+  "mecordserver/demo/admin/response"
+  "mecordserver/demo/admin/utils/validator"
   "mecordserver/util/errors"
 )
 
@@ -201,7 +201,7 @@ func (s *'$controllerName') Delete(param map[string]interface{}) (rsp *response.
 echo 'package request
 
 import (
-  "mecordserver/mecord/admin/dao/model"
+  "mecordserver/demo/admin/dao/model"
 )
 
 type '$controllerName'List struct {
@@ -234,8 +234,8 @@ import (
 
 	"github.com/gookit/goutil/jsonutil"
 
-	"mecordserver/mecord/admin/controller"
-	"mecordserver/mecord/admin/request"
+	"mecordserver/demo/admin/controller"
+	"mecordserver/demo/admin/request"
 )
 
 func Test_'$controllerName'_List(t *testing.T) {
@@ -293,7 +293,7 @@ func Test_'$controllerName'_Delete(t *testing.T) {
 echo 'package response
 
 import (
-  "mecordserver/mecord/admin/dao/model"
+  "mecordserver/demo/admin/dao/model"
 )
 
 type '$controllerName' struct {
