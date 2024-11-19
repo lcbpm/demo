@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-// ConvertBeijingTimeToCustomTime 根据输入的时区名称转换北京时间到指定时区
-func ConvertBeijingTimeToCustomTime(beijingTime time.Time, timezoneName string) (time.Time, error) {
+// ConvertBeijingTimeToCustomTimeBeta 根据输入的时区名称转换北京时间到指定时区
+func ConvertBeijingTimeToCustomTimeBeta(beijingTime time.Time, timezoneName string) (time.Time, error) {
 	// 去除空格
 	timezoneName = strings.TrimSpace(timezoneName)
 
@@ -109,32 +109,43 @@ func GetTimezoneOffsetFromAbbreviation(timezoneName string) (int, int, error) {
 }
 
 // 获取北京时间（CST）时间
-func GetBeijingTime() time.Time {
+func GetBeijingTimeBeta() time.Time {
 	return time.Date(2024, 11, 12, 0, 21, 0, 0, time.FixedZone("CST", 8*3600))
 }
 
-func Test_zone(t *testing.T) {
+func Test_beta_zone(t *testing.T) {
 	// 获取北京时间
-	beijingTime := GetBeijingTime()
+	beijingTime := GetBeijingTimeBeta()
 
 	// 示例: 转换为不同的时区名称
 	timezoneNames := []string{
-		"UTC-3",         // UTC-3
-		"UTC-4:30",      // UTC-4:30
-		"UTC+5:00",      // UTC+5:00
-		"UTC+8",         // UTC+8 (北京时间)
-		"Asia/Shanghai", // IANA时区
-		"Europe/London", // IANA时区
-		"PST",           // 地方时区
-		"CST",           // 地方时区
-		"GMT",           // GMT时区
-		"IST",           // Indian Standard Time
-		"JST",           // Japan Standard Time
+		"UTC-3",            // UTC-3
+		"UTC-4:30",         // UTC-4:30
+		"UTC+5:00",         // UTC+5:00
+		"UTC+8",            // UTC+8 (北京时间)
+		"Asia/Shanghai",    // IANA时区
+		"Europe/London",    // IANA时区
+		"PST",              // 地方时区
+		"CST",              // 地方时区
+		"GMT",              // GMT时区
+		"IST",              // Indian Standard Time
+		"JST",              // Japan Standard Time
+		"UTC",              // UTC+0:00
+		"America/New_York", // UTC-5:00
+		"Europe/London",    // UTC+0:00
+		"Asia/Kolkata",     // UTC+5:30
+		"Asia/Tokyo",       // UTC+9:00
+		"Australia/Sydney", // UTC+10:00
+		"Pacific/Auckland", // UTC+12:00
+		"Etc/GMT+12",       // UTC-12:00
+		"Etc/GMT-14",       // UTC+14:00
+		"UTC+5:45",         // UTC+5:45
+		"UTC-4:30",         // UTC-4:30
 	}
 
 	// 遍历所有时区名称并输出转换后的时间
 	for _, timezoneName := range timezoneNames {
-		targetTime, err := ConvertBeijingTimeToCustomTime(beijingTime, timezoneName)
+		targetTime, err := ConvertBeijingTimeToCustomTimeBeta(beijingTime, timezoneName)
 		if err != nil {
 			fmt.Println("错误:", err)
 			continue
