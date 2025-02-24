@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/Mimino666/langdetect v0.0.0-20210507073845-a1598f1afcbf // indirect
 	github.com/abadojack/whatlanggo v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
