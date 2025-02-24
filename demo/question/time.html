@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量时间戳转换工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<h1>批量时间戳转换工具</h1>
+<p>输入一对时间戳，每对时间戳之间用空格或制表符分隔，每行一对时间戳：</p>
+<textarea id="timestamp-input"></textarea><br>
+<button onclick="convertTimestamps()">转换时间戳</button>
+
+<div id="result"></div>
+
+<script>
+    function convertTimestamps() {
+        const input = document.getElementById("timestamp-input").value.trim();
+        const lines = input.split("\n").map(line => line.trim()).filter(Boolean);
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = '';  // 清空之前的结果
+
+        if (lines.length === 0) {
+            resultDiv.innerHTML = '请输入有效的时间戳。';
+            return;
+        }
+
+        const converted = lines.map(line => {
+            // 使用空格或制表符分割每一行的两个时间戳
+            const timestamps = line.split(/\s+/).map(ts => ts.trim()).filter(Boolean);
+
+            if (timestamps.length !== 2) {
+                return `无效的输入格式：${line}`;
+            }
+
+            const [startTs, endTs] = timestamps.map(ts => parseInt(ts));
+
+            // 判断时间戳是否有效
+            if (isNaN(startTs) || isNaN(endTs)) {
+                return `无效的时间戳：${line}`;
+            }
+
+            // 转换为日期
+            const startDate = new Date(startTs * 1000);  // 转换为毫秒
+            const endDate = new Date(endTs * 1000);
+
+            return `${startTs} - ${endTs} => ${startDate.toLocaleString()} 至 ${endDate.toLocaleString()}`;
+        });
+
+        resultDiv.innerHTML = converted.join("\n");
+    }
+</script>
+</body>
+</html>
